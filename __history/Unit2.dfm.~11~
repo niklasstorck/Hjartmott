@@ -1,0 +1,155 @@
+object Form2: TForm2
+  Left = 0
+  Top = 0
+  Caption = 'Form2'
+  ClientHeight = 766
+  ClientWidth = 1022
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object DBGrid1: TDBGrid
+    Left = 0
+    Top = 0
+    Width = 1022
+    Height = 654
+    Align = alClient
+    DataSource = DataSource1
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 0
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'Personnummer'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Produktbeskrivning'
+        Width = 207
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'eRemissTid'
+        Width = 124
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'BokadTid'
+        Width = 120
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Signerad'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        Width = 144
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'RemL'#228'kare'
+        Width = 151
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Signerande'
+        Visible = True
+      end>
+  end
+  object StatusBar1: TStatusBar
+    Left = 0
+    Top = 654
+    Width = 1022
+    Height = 112
+    Panels = <>
+  end
+  object Button1: TButton
+    Left = 939
+    Top = 733
+    Width = 75
+    Height = 25
+    Caption = '&Uppdatera'
+    TabOrder = 2
+    OnClick = Button1Click
+  end
+  object RadioGroup1: TRadioGroup
+    Left = 8
+    Top = 680
+    Width = 185
+    Height = 78
+    Caption = 'Urval'
+    TabOrder = 3
+  end
+  object RadioButtonM: TRadioButton
+    Left = 24
+    Top = 710
+    Width = 113
+    Height = 17
+    Caption = 'M'#229'nad'
+    TabOrder = 4
+    OnClick = RadioButtonMClick
+  end
+  object RadioButtonV: TRadioButton
+    Left = 24
+    Top = 733
+    Width = 113
+    Height = 17
+    Caption = 'Vecka'
+    TabOrder = 5
+    OnClick = RadioButtonVClick
+  end
+  object DBNavigator1: TDBNavigator
+    Left = 774
+    Top = 660
+    Width = 240
+    Height = 25
+    DataSource = DataSource1
+    TabOrder = 6
+  end
+  object PafConnection: TFDConnection
+    Params.Strings = (
+      'ConnectionDef=PAF')
+    Connected = True
+    LoginPrompt = False
+    Left = 506
+    Top = 77
+  end
+  object DataSource1: TDataSource
+    DataSet = FDQuery1
+    Left = 504
+    Top = 168
+  end
+  object FDQuery1: TFDQuery
+    Connection = PafConnection
+    Left = 640
+    Top = 208
+  end
+end

@@ -1,0 +1,103 @@
+unit Unit2;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf,
+  FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys,
+  FireDAC.Phys.MSSQL, FireDAC.Phys.MSSQLDef, FireDAC.VCLUI.Wait,
+  FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt,
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.ComCtrls, Vcl.Grids,
+  Vcl.DBGrids, Vcl.StdCtrls, Vcl.ExtCtrls;
+
+type
+  TForm2 = class(TForm)
+    DBGrid1: TDBGrid;
+    StatusBar1: TStatusBar;
+    PafConnection: TFDConnection;
+    DataSource1: TDataSource;
+    FDQuery1: TFDQuery;
+    Button1: TButton;
+    RadioGroup1: TRadioGroup;
+    RadioButtonM: TRadioButton;
+    RadioButtonV: TRadioButton;
+    procedure Button1Click(Sender: TObject);
+    procedure RadioButtonMClick(Sender: TObject);
+    procedure RadioButtonVClick(Sender: TObject);
+  private
+    { Private declarations }
+    Procedure Update( t: Char);
+  public
+    { Public declarations }
+  end;
+
+var
+  Form2: TForm2;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm2.Button1Click(Sender: TObject);
+begin
+  if RadioButtonM.Checked then
+    Update('m')
+  else
+    Update('v');
+end;
+
+procedure TForm2.RadioButtonMClick(Sender: TObject);
+begin
+  RadioButtonM.Checked:=True;
+end;
+
+procedure TForm2.RadioButtonVClick(Sender: TObject);
+begin
+  RadioButtonV.Checked:=True;
+end;
+
+procedure TForm2.Update(t: Char);
+var S: String;
+begin
+  case t of
+    'v' : S:='use fyspaf SELECT REMTAB.pnr as Personnummer, '+
+              'PRODTAB.KTXT as Produktbeskrivning, '+
+              'PWRemissTab.best_datumtid as eRemissTid, '+
+              'pattab.bokaddatumtid as BokadTid,'+
+              'PATTAB.SIGNDATUMTID as Signerad, '+
+              'PATTAB.BESTLAK as RemLäkare, '+
+              'IIF(PATTAB.MODMASK = ''Å'',''Återsänd remiss'','' ''), '+
+              'PATTAB.MODMASK, PATTAB.SIGNLAK as Signerande '+
+              'FROM ((((REMTAB join PATTAB ON  PATTAB.REMISSNR = REMTAB.REMISSNR) '+
+              'left join PRODTAB on  REMTAB.PRODKOD = PRODTAB.PRODKOD) '+
+              'left join Fysweb.dbo.PWRemissTab on  RemissNrLab = REMTAB.REMISSNR) '+
+              'left join BESTTAB on BESTTAB.ID = REMTAB.BEST) '+
+              'left join PERSONTAB on PATTAB.PNR = PERSONTAB.PNR '+
+              'where PATTAB.SIGNDATUMTID >= GetDate() - 7 and REMTAB.BEST = ''10011 101 m03'' '+
+              'order by REMTAB.pnr';
+
+    'm' : S:= 'use fyspaf SELECT REMTAB.pnr as Personnummer, '+
+              'PRODTAB.KTXT as Produktbeskrivning, '+
+              'PWRemissTab.best_datumtid as eRemissTid, '+
+              'pattab.bokaddatumtid as BokadTid,'+
+              'PATTAB.SIGNDATUMTID as Signerad, '+
+              'PATTAB.BESTLAK as RemLäkare, '+
+              'IIF(PATTAB.MODMASK = ''Å'',''Återsänd remiss'','' ''), '+
+              'PATTAB.MODMASK, PATTAB.SIGNLAK as Signerande '+
+              'FROM ((((REMTAB join PATTAB ON  PATTAB.REMISSNR = REMTAB.REMISSNR) '+
+              'left join PRODTAB on  REMTAB.PRODKOD = PRODTAB.PRODKOD) '+
+              'left join Fysweb.dbo.PWRemissTab on  RemissNrLab = REMTAB.REMISSNR) '+
+              'left join BESTTAB on BESTTAB.ID = REMTAB.BEST) '+
+              'left join PERSONTAB on PATTAB.PNR = PERSONTAB.PNR '+
+              'where PATTAB.SIGNDATUMTID >= GetDate() - 30 and REMTAB.BEST = ''10011 101 m03'' '+
+              'order by REMTAB.pnr'
+  end;
+
+  FDQuery1.Active:=False;
+  FDQuery1.Active:=True;
+
+end;
+
+end.
